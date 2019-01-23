@@ -6,24 +6,673 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <link rel='stylesheet' href='/stylesheets/home.css' />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script
-	src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
+	$(document).ready(function (){
+// 		$("#head").load("header.html");
 
+		picArr = new Array()
+			pic_padding = 0
+			box_w = 0
+			box_h = 0
+			ttoday = 0
+			kind_num = 0
+		
+			mybox = 0
+
+
+		if (kind_num == 0) {
+			$('#myall').css('background-color', '##A9A9F5')
+			mydata()
+		}
+
+		$('.hbtn').click(function() {
+			if ($(this).text() == "EAT") {
+				kind_num = 1
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', '##A9A9F5')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+				mydata()
+			} else if ($(this).text() == "BUY") {
+				kind_num = 2
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', '#A9A9F5')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+				mydata()
+			} else if ($(this).text() == "ENJOY") {
+				kind_num = 3
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', '#A9A9F5')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+				mydata()
+			} else if ($(this).text() == "ALL") {
+				kind_num = 0
+				$('#myall').css('background-color', '#A9A9F5')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+				mydata()
+			} else if ($(this).text() == "ADDRESS") {
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', '#A9A9F5')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+			}
+
+		})
+
+		$('.fbtn').click(function() {
+			if ($(this).attr('id') == "myhome") {
+				kind_num = 0
+				$('#myall').css('background-color', '#A9A9F5')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+				mydata()
+			} else if ($(this).attr('id') == "mylike") {
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', '#A9A9F5')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', 'black')
+				mylike()
+			} else if ($(this).attr('id') == "myupload") {
+				location.href = "upload.html"
+			} else if ($(this).attr('id') == "myrecord") {
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', '#A9A9F5')
+				$('#mymypage').css('background-color', 'black')
+				myrecord()
+			} else if ($(this).attr('id') == "mymypage") {
+				$('#myall').css('background-color', 'black')
+				$('#myeat').css('background-color', 'black')
+				$('#mybuy').css('background-color', 'black')
+				$('#myenjoy').css('background-color', 'black')
+				$('#myaddress').css('background-color', 'black')
+				$('#myhome').css('background-color', 'black')
+				$('#mylike').css('background-color', 'black')
+				$('#myrecord').css('background-color', 'black')
+				$('#mymypage').css('background-color', '#A9A9F5')
+				mypage()
+			}
+
+		})
+
+		$('.mymys').click(function() {
+			mysearch()
+		})
+
+		$(document).on("click", ".box", function() {
+			mybox = $(this).attr('value')
+			myview()
+		})
+	});	
+	
+	
+	function myview() {
+
+		$.ajax({
+			url : "/moment/box_select",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+
+				location.href = "view_detail2.html?dnum=" + mybox
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		})
+	}
+
+	function mysearch() {
+
+		picArr = []
+
+		s_address = $('#msearch').val()
+		if (s_address == "") {
+			alert("검색어가 없습니다")
+		}
+		datas = {
+			add : s_address
+		}
+
+		$.ajax({
+
+			url : "home_address_selectdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+
+				$.each(data, function(index, item) {
+
+					date = new Date()
+					ttoday = date.getFullYear()
+					mybirth = item.m_birth.slice(0, 4)
+					m_age = ttoday - mybirth + 1
+
+					m_age = eval(ttoday - mybirth + 1 + "");
+
+					data_num = item.d_no
+
+					if (m_age >= 10 && m_age < 20) {
+						m_age = 10
+					} else if (m_age >= 20 && m_age < 30) {
+						m_age = 20
+					} else if (m_age >= 30 && m_age < 40) {
+						m_age = 30
+					} else if (m_age >= 40 && m_age < 50) {
+						m_age = 40
+					} else if (m_age >= 50 && m_age < 60) {
+						m_age = 50
+					} else if (m_age >= 60 && m_age < 70) {
+						m_age = 60
+					} else {
+						m_age = 10
+					}
+
+					if (item.m_nick != "") {
+						mymypath = item.d_path
+						realmypath = mymypath.trim()
+
+						picArr.push({
+							'name' : item.m_nick,
+							'title' : item.d_title,
+							'src' : realmypath,
+							'age' : m_age,
+							'like' : item.d_like,
+							'dnum' : item.d_no
+						})
+					}
+				})
+
+				mybody()
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
+	function mydata() {
+
+		picArr = []
+
+		datas = {
+			kind : 1
+		}
+
+		$.ajax({
+			url : "/moment/listA",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data) {
+					
+			console.log("nodedata")
+			console.log(data)
+				$.each(data, function(index, item) {
+
+					date = new Date()
+					ttoday = date.getFullYear()
+					mybirth = item.m_birth.slice(0, 4)
+					m_age = ttoday - mybirth + 1
+
+					m_age = eval(ttoday - mybirth + 1 + "");
+
+					data_num = item.d_no
+
+					if (m_age >= 10 && m_age < 20) {
+						m_age = 10
+					} else if (m_age >= 20 && m_age < 30) {
+						m_age = 20
+					} else if (m_age >= 30 && m_age < 40) {
+						m_age = 30
+					} else if (m_age >= 40 && m_age < 50) {
+						m_age = 40
+					} else if (m_age >= 50 && m_age < 60) {
+						m_age = 50
+					} else if (m_age >= 60 && m_age < 70) {
+						m_age = 60
+					} else {
+						m_age = 10
+					}
+
+					if (item.m_nick != "") {
+						mymypath = item.d_path
+						realmypath = mymypath.trim()
+
+						picArr.push({
+							'name' : item.m_nick,
+							'title' : item.d_title,
+							'src' : realmypath,
+							'age' : m_age,
+							'like' : item.d_like,
+							'dnum' : item.d_no
+						})
+					}
+				})
+
+				mybody()
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
+
+	function mylike() {
+
+		picArr = []
+		s_m_email = sessionStorage.m_email
+		datas = {
+			m_email : s_m_email
+		}
+
+		$.ajax({
+			url : "mylike_selectdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				$.each(data, function(index, item) {
+
+					date = new Date()
+					ttoday = date.getFullYear()
+					mybirth = item.m_birth.slice(0, 4)
+					m_age = ttoday - mybirth + 1
+
+					m_age = eval(ttoday - mybirth + 1 + "");
+
+					data_num = item.d_no
+
+					if (m_age >= 10 && m_age < 20) {
+						m_age = 10
+					} else if (m_age >= 20 && m_age < 30) {
+						m_age = 20
+					} else if (m_age >= 30 && m_age < 40) {
+						m_age = 30
+					} else if (m_age >= 40 && m_age < 50) {
+						m_age = 40
+					} else if (m_age >= 50 && m_age < 60) {
+						m_age = 50
+					} else if (m_age >= 60 && m_age < 70) {
+						m_age = 60
+					} else {
+						m_age = 10
+					}
+
+					if (item.m_nick != "") {
+						mymypath = item.d_path
+						realmypath = mymypath.trim()
+
+						picArr.push({
+							'name' : item.m_nick,
+							'title' : item.d_title,
+							'src' : realmypath,
+							'age' : m_age,
+							'like' : item.d_like,
+							'dnum' : item.d_no
+						})
+					}
+				})
+
+				mybody()
+
+			},
+			error : function(err) {
+				alert("실패");
+				console.log(err)
+			}
+		});
+	}
+
+	function myrecord() {
+
+		picArr = []
+		s_m_email = sessionStorage.m_email
+		datas = {
+			m_email : s_m_email
+		}
+
+		$.ajax({
+			url : "myrecord_selectdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				$.each(data, function(index, item) {
+
+					date = new Date()
+					ttoday = date.getFullYear()
+					mybirth = item.m_birth.slice(0, 4)
+					m_age = ttoday - mybirth + 1
+
+					m_age = eval(ttoday - mybirth + 1 + "");
+
+					data_num = item.d_no
+
+					if (m_age >= 10 && m_age < 20) {
+						m_age = 10
+					} else if (m_age >= 20 && m_age < 30) {
+						m_age = 20
+					} else if (m_age >= 30 && m_age < 40) {
+						m_age = 30
+					} else if (m_age >= 40 && m_age < 50) {
+						m_age = 40
+					} else if (m_age >= 50 && m_age < 60) {
+						m_age = 50
+					} else if (m_age >= 60 && m_age < 70) {
+						m_age = 60
+					} else {
+						m_age = 10
+					}
+
+					if (item.m_nick != "") {
+						mymypath = item.d_path
+						realmypath = mymypath.trim()
+
+						picArr.push({
+							'name' : item.m_nick,
+							'title' : item.d_title,
+							'src' : realmypath,
+							'age' : m_age,
+							'like' : item.d_like,
+							'dnum' : item.d_no
+						})
+					}
+				})
+
+				mybody()
+
+			},
+			error : function(err) {
+				alert("실패");
+				console.log(err)
+			}
+		});
+	}
+
+	function mybody() {
+
+		$('.container').html("")
+		w = window.innerWidth
+		pic_padding = w / 30
+
+		console.log("길이!!: " + picArr.length)
+		for (n = 0; n < picArr.length; n++) {
+
+			console.log("데이터!!: " + picArr[n].name)
+			if (n == 0 || n % 2 == 0) {
+				$('.container').append('<div class="row"></div><br>')
+				$('.container').children('.row:last').append('<div id="colcol" class="col-xs-6 col-sm-6 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2"></div>')
+			} else {
+				$('.container').children('.row:last').append('<div id="colcol" class="col-xs-6 col-sm-6 col-md-4 col-lg-4"></div><div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>')
+			}
+			myrow = $('.container').children('.row:last')
+			myrow.children('#colcol:last').append('<div class="box" value=""></div>')
+			mycolcol = myrow.children('#colcol:last')
+			mybox = mycolcol.children('.box:last')
+			mybox.append('<div class="s_pic" style="background-color:black; width:100%; display: table;"><div class="ivdiv" style="display:table-cell; vertical-align:middle;"></div></div><br>')
+			imgvd = $('.s_pic:last').children('.ivdiv')
+			iviv = picArr[n].src
+			console.log(iviv)
+			if (iviv.includes("mp4") || iviv.includes("avi")|| iviv.includes("MOV")) {
+				console.log("video")
+				imgvd.append("<video class='please' id ='myvideo" + n + "' style='width:100%;' controls></video>")
+				console.log(mybodyhtml)
+				myvdvd = "myvideo" + n
+				console.log(myvdvd)
+				ssss = imgvd.children('video:last')
+				ssss.append("<source src='"+ picArr[n].src +"'></source>")
+
+				var vid = document.getElementById(myvdvd);
+				vid.onloadedmetadata = function() {
+				};
+
+			} else if (iviv.includes("JPG") || iviv.includes("jpg")) {
+				console.log("jpg")
+				imgvd.append('<img class="mainimg" src="' + picArr[n].src
+						+ '"width="100%">')
+			} else if (iviv.includes("png") || iviv.includes("PNG")) {
+				console.log("png")
+				imgvd.append('<img class="mainimg" src="' + picArr[n].src
+						+ '"width="100%">')
+			}
+
+			mybox.append('<div id = "mynick" class="myname" style="float:left;margin-right:15px;">'+ picArr[n].name + '</div>')
+			mybox.append('<div class="titlestar" style="float:right;margin-right:10px;"><img src="image/like/full_heart.png" style="width:20px;float:left;margin-right:5px;">'+ picArr[n].like + '</div>');
+
+			switch (picArr[n].age) {
+			case 10:
+				mybox.append('<div class="titlestar" id ="myage"><img src="image/age/10s.png" style="width:40px;"></div>');
+				break;
+			case 20:
+				mybox.append('<div class="titlestar" id ="myage"><img src="image/age/20s.png" style="width:40px;"></div>');
+				break;
+			case 30:
+				mybox.append('<div class="titlestar" id ="myage"><img src="image/age/30s.png" style="width:40px;"></div>');
+				break;
+			case 40:
+				mybox.append('<div class="titlestar" id ="myage"><img src="image/age/40s.png" style="width:40px;"></div>');
+				break;
+			case 50:
+				mybox.append('<div class="titlestar" id ="myage"><img src="image/age/50s.png" style="width:40px;"></div>');
+				break;
+			case 60:
+				mybox.append('<div class="titlestar" id ="myage"><img src="image/age/60s.png" style="width:40px;"></div>');
+				break;
+			default:
+				console.log("gg");
+				break;
+			}
+
+			mybox.append('<div id="mytitle" class="titlestar" style="margin-top:10px ;text-decoration:underline;">'+ picArr[n].title + '</div>')
+
+			console.log(picArr[n].dnum)
+			mybox.attr('value', picArr[n].dnum)
+
+		}
+
+		box_w = $('.box').width()
+
+		console.log("box_w : " + box_w)
+		box_h = box_w * 1.6
+
+		s_pic_w = $('.s_pic').width()
+		console.log("spicw : " + s_pic_w)
+
+		$('[src*="star"]').css('width', '20px')
+		$('.s_pic').css('height', s_pic_w - 40)
+		$('.myname').css('font-size', '10px')
+		$('.titlestar').css('font-size', '15px')
+		$('.titlestar').css('font-family', '설렘')
+		$('.mainimg').css('vertical-align', 'middle')
+		$('.mainimg').css('margin', 'auto')
+		//$('.box').css('height', box_h)
+		$('.box').css('padding', '20px')
+		$('.st').css('margin-bottom', '20px')
+		$('.polar_text').css('font-size', '10px')
+
+		$('.please').css('vertical-align', 'middle')
+		$('.please').css('margin', 'auto')
+
+		console.log(mybodyhtml)
+	}
+
+	function mypage() {
+
+		s_m_email = sessionStorage.m_email
+		console.log(s_m_email)
+		datas = {
+			m_email : s_m_email
+		}
+		$.ajax({
+			url : "mem_idcheckdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				console.log("data:" + data);
+				var email = $('#m_email').val()
+				if (data == '') {
+
+					alert("잘못된 접급입니댜.");
+				} else {
+					console.log("data:" + data[0].m_no);
+					console.log("data:" + data[0].m_email);
+					console.log("data:" + data[0].m_pw);
+					console.log("data:" + data[0].m_nick);
+					console.log("data:" + data[0].m_birth);
+
+					location.href = "home_mypage.html?num=" + data[0].m_no;
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
+	flag = 0
+	function orderFn() {
+		if (flag == 0) {
+			$('#odbtn').text('L I K E ▼')
+			mydata2()
+			flag = 1
+		} else if (flag == 1) {
+			$('#odbtn').text('N E W ▼')
+			mydata()
+			flag = 0
+		}
+
+	}
+	function mydata2() {
+
+		picArr = []
+
+		datas = {
+			kind : kind_num
+		}
+
+		$.ajax({
+			url : "home_selectdblike.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+
+				$.each(data, function(index, item) {
+
+					date = new Date()
+					ttoday = date.getFullYear()
+					mybirth = item.m_birth.slice(0, 4)
+					m_age = ttoday - mybirth + 1
+
+					m_age = eval(ttoday - mybirth + 1 + "");
+
+					data_num = item.d_no
+
+					if (m_age >= 10 && m_age < 20) {
+						m_age = 10
+					} else if (m_age >= 20 && m_age < 30) {
+						m_age = 20
+					} else if (m_age >= 30 && m_age < 40) {
+						m_age = 30
+					} else if (m_age >= 40 && m_age < 50) {
+						m_age = 40
+					} else if (m_age >= 50 && m_age < 60) {
+						m_age = 50
+					} else if (m_age >= 60 && m_age < 70) {
+						m_age = 60
+					} else {
+						m_age = 10
+					}
+
+					if (item.m_nick != "") {
+						mymypath = item.d_path
+						realmypath = mymypath.trim()
+
+						picArr.push({
+							'name' : item.m_nick,
+							'title' : item.d_title,
+							'src' : realmypath,
+							'age' : m_age,
+							'like' : item.d_like,
+							'dnum' : item.d_no
+						})
+					}
+				})
+
+				mybody()
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
 </script>
 </head>
 <body id="mybodyhtml">
 	<div id="head"></div>
+	
 
 	<div style="margin-top: 51px; width: 100%; background-color: black;">
 
@@ -42,12 +691,9 @@
 
 			<div class="input-group" style="padding-bottom: 5px;">
 
-				<input id="msearch" type="text" class="form-control"
-					placeholder="Search for..." style="background-color: white;">
+				<input id="msearch" type="text" class="form-control" placeholder="Search for..." style="background-color: white;">
 				<span class="input-group-btn">
-					<button class="btn btn-secondary mymys"
-						style="width: 60px; background-color: white; border: solid 2px white;"
-						type="button">Go!</button>
+					<button class="btn btn-secondary mymys"style="width: 60px; background-color: white; border: solid 2px white;" type="button">Go!</button>
 				</span>
 			</div>
 
@@ -66,16 +712,11 @@
 	<br>
 	<div id="bottom_nav"
 		class="navbar-mobile btn-group btn-group-justified navbar-fixed-bottom">
-		<a href="#" class="btn glyphicon glyphicon-home fbtn" id="myhome"
-			style="color: white;"></a> <a href="#"
-			class="btn glyphicon glyphicon-heart fbtn" id="mylike"
-			style="color: white;"></a> <a href="#"
-			class="btn glyphicon glyphicon-camera fbtn" id="myupload"
-			style="color: white;"></a> <a href="#"
-			class="btn glyphicon glyphicon-menu-hamburger fbtn" id="myrecord"
-			style="color: white;"></a> <a href="#"
-			class="btn glyphicon glyphicon-user fbtn" id="mymypage"
-			style="color: white;"></a>
+		<a href="#" class="btn glyphicon glyphicon-home fbtn" 			id="myhome" 	style="color: white;"></a> 
+		<a href="#" class="btn glyphicon glyphicon-heart fbtn" 			id="mylike"		style="color: white;"></a> 
+		<a href="#" class="btn glyphicon glyphicon-camera fbtn"			id="myupload" 	style="color: white;"></a> 
+		<a href="#" class="btn glyphicon glyphicon-menu-hamburger fbtn" id="myrecord"	style="color: white;"></a> 
+		<a href="#" class="btn glyphicon glyphicon-user fbtn" 			id="mymypage" 	style="color: white;"></a>
 	</div>
 
 </body>
