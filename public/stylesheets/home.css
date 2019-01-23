@@ -1,0 +1,64 @@
+@font-face {
+	font-family: "Am";
+	src: url("font/AmaticSC-Regular.ttf");
+}
+
+@font-face {
+	font-family: "¼³·½";
+	src: url("font/210 ¼³·½ÁÖÀÇB.ttf")
+}
+
+@font-face {
+	font-family: "³ª´®°íµñ";
+	src: url("font/NANUMBARUNGOTHIC.TTF")
+}
+
+div {
+	font-family: "³ª´®°íµñ";
+	text-shadow: #999999 1px 1px 1px;
+}
+
+#mainimg {
+	
+}
+
+.box {
+	box-shadow: 5px 5px 20px #ccc;
+	background-color: white;
+}
+
+.hbtn {
+	background-color: black;
+	font-family: "Am";
+	color: white;
+	font-size: 14pt;
+}
+
+#odbtn {
+	color: white;
+	font-size: 12pt;
+	font-family: "Am";
+	background-color: black;
+	margin: auto;
+	height: 40px; 
+}
+
+#bottom_nav {
+	background-color: black;
+}
+
+.fbtn:active {
+	background-color: #A9A9F5;
+}
+
+.fbtn:hover {
+	background-color: #A9A9F5;
+}
+
+.hbtn:active {
+	background-color: #A9A9F5;
+}
+
+.hbtn:hover {
+	background-color: #A9A9F5;
+}
