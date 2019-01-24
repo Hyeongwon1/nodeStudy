@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato"rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat"rel="stylesheet" type="text/css">
+<link rel='stylesheet' href='/stylesheets/view_detail2.css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>IN MY MOMENT</title>
+<style>
+</style>
+
+<script>
+	$(document).ready(function() {
+		a = window.location.href
+		arr = []
+		arr = a.split("=")
+		dno = arr[1]
+		datas = {
+			dnum : dno
+		}
+		$.ajax({
+			url : "/moment/data_view",
+			dataType : "json",
+			data : datas,
+			type : "get",
+			success : function(data, textStatus, jqXHR) {
+				d_like = data[0].d_like
+				$('#likecnt').text(d_like)
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+		fn()
+		d_like = ""
+		m_num = ""
+		mypage()
+		d_num = dno
+		myvdvd = ""
+
+		$('#like').click(function() {
+			if (flag == 1) {
+				$('#like').attr('src', 'image/like/heart.png')
+				flag = 0
+				datas = {
+					d_cnt : eval("d_like-1"),
+					d_no : d_num
+				}
+				$.ajax({
+					url : 'likecnt.jsp',
+					dataType : "html",
+					type : "POST",
+					data : datas,
+					success : function(data) {
+						cnt()
+						likedown()
+					},
+					error : function(err) {
+					}
+				});
+
+			} else if (flag == 0) {
+
+				$('#like').attr('src', 'image/like/full_heart.png')
+				flag = 1
+				datas = {
+					d_cnt : eval("d_like+1"),
+					d_no : d_num
+				}
+				$.ajax({
+					url : 'likecnt.jsp',
+					dataType : "html",
+					type : "POST",
+					data : datas,
+					success : function(data) {
+						cnt()
+						likeup()
+					},
+					error : function(err) {
+					}
+				});
+			}
+
+		});
+		$("#head").load("header.html");
+		$("#foot").load("footer.html");
+
+	})
+	function fn() {
+		a = window.location.href
+		arr = []
+		arr = a.split("=")
+		dno = arr[1]
+		datas = {
+			dnum : dno
+		}
+		
+		$.ajax({
+			url : "/moment/data_view",
+			dataType : "json",
+			data : datas,
+			type : "get",
+			success : function(data, textStatus, jqXHR) {
+				d_num = dno
+				mypage()
+				datas = {
+					mnum : m_num
+				}
+				flag = 0;
+				console.log(data);
+				$.ajax({
+					url : "likecheck.jsp",
+					dataType : "json",
+					data : datas,
+					type : "get",
+					success : function(data, textStatus, jqXHR) {
+						$.each(data, function(index, item) {
+							if (item.d_no == dno) {
+								$('#like').attr('src',
+										'image/like/full_heart.png')
+								flag = 1;
+								return false;
+							} else {
+								$('#like').attr('src', 'image/like/heart.png')
+								flag = 0
+							}
+
+						})
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+					}
+				});
+				$('#date').text(data[0].d_regdate);
+				$('#mem_nick').text(data[0].m_nick);
+				$('#mem_nick').attr(data[0].m_nick);
+				$('#title').text(data[0].d_title);
+				$('#content').text(data[0].d_content);
+				myvdvd = data[0].d_path
+				$('#mya').attr('href','https://www.google.co.kr/maps/place/'+ data[0].d_location);
+				$('#mya').text(data[0].d_location);
+				$('#likecnt').text(data[0].d_like);
+				if (data[0].d_star == 1) {
+					$('#starimg').attr('src', 'image/roll/r1.png')
+				} else if (data[0].d_star == 2) {
+					$('#starimg').attr('src', 'image/roll/r2.png')
+				} else if (data[0].d_star == 3) {
+					$('#starimg').attr('src', 'image/roll/r3.png')
+				} else if (data[0].d_star == 4) {
+					$('#starimg').attr('src', 'image/roll/r4.png')
+				} else if (data[0].d_star == 5) {
+					$('#starimg').attr('src', 'image/roll/r5.png')
+				}
+				if (data[0].d_kind == 1) {
+					$('#kindimg').attr('src', 'image/kind/eat.png')
+				} else if (data[0].d_kind == 2) {
+					$('#kindimg').attr('src', 'image/kind/buy.png')
+				} else if (data[0].d_kind == 3) {
+					$('#kindimg').attr('src', 'image/kind/enjoy.png')
+				}
+				myvideo()
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+
+	}
+	function myvideo() {
+		ivtrim = myvdvd.trim()
+		console.log(ivtrim)
+
+		if (ivtrim.includes("mp4") || ivtrim.includes("avi")
+				|| ivtrim.includes("MOV")) {
+			console.log("video")
+			$('#mainData')
+					.append(
+							"<video id ='mymyvideo' controls autoplay='true' style='width:70%; margin:auto;'></video>")
+			console.log(mybodyhtml)
+			$('#mymyvideo').append("<source src='"+ ivtrim +"'></source>")
+
+			var vid = document.getElementById("mymyvideo");
+			vid.onloadedmetadata = function() {
+			};
+		} else if (ivtrim.includes("JPG") || ivtrim.includes("jpg")) {
+			console.log("jpg")
+			$('#mainData').append(
+					'<img class="img-responsive" src="' + ivtrim
+							+ '" style="width:70%; margin:auto;">')
+		} else if (ivtrim.includes("PNG") || ivtrim.includes("png")) {
+			console.log("jpg")
+			$('#mainData').append(
+					'<img class="img-responsive" src="' + ivtrim
+							+ '" style="width:70%; margin:auto;">')
+		}
+
+	}
+
+	function cnt() {
+		a = window.location.href
+		arr = []
+		arr = a.split("=")
+		dno = arr[1]
+		datas = {
+			dnum : dno
+		}
+		$.ajax({
+			url : "data_view.jsp",
+			dataType : "json",
+			data : datas,
+			type : "get",
+			success : function(data, textStatus, jqXHR) {
+				d_num = dno
+				d_like = data[0].d_like
+				$('#likecnt').text(d_like)
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+
+	}
+	function mypage() {
+
+		s_m_email = sessionStorage.m_email
+		console.log(s_m_email)
+		datas = {
+			m_email : s_m_email
+		}
+		$.ajax({
+			url : "moment/mem_idcheckdb",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				m_num = data[0].m_no
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
+	function likeup() {
+		a = window.location.href
+		arr = []
+		arr = a.split("=")
+		dno = arr[1]
+		datas = {
+			dnum : dno,
+			mnum : m_num
+		}
+
+		$.ajax({
+			url : "likeup.jsp",
+			dataType : "json",
+			data : datas,
+			type : "get",
+			success : function(data, textStatus, jqXHR) {
+				d_num = dno
+				d_like = data[0].d_like
+				$('#likecnt').text(d_like)
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+
+	}
+	function likedown() {
+
+		a = window.location.href
+		arr = []
+		arr = a.split("=")
+		dno = arr[1]
+		datas = {
+			dnum : dno,
+			mnum : m_num
+		}
+		$.ajax({
+			url : "likedown.jsp",
+			dataType : "json",
+			data : datas,
+			type : "get",
+			success : function(data, textStatus, jqXHR) {
+				d_num = dno
+				d_like = data[0].d_like
+				$('#likecnt').text(d_like)
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+
+	}
+</script>
+<script>
+	function fn11() {
+		location.href = "home.html"
+	}
+</script>
+</head>
+
+<body id="mybodyhtml">
+	<div class="container">
+		<div id="head" onclick="fn11()"></div>
+		<div class="row hj_headmargin  col-sm-12  col-md-12 col-lg-12">
+			<div id="date"></div>
+			<div id="nickdiv">
+				<span style="color: orange" id="mem_nick"></span>&nbsp;님
+			</div>
+			<div id="clear"></div>
+
+			<div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
+			<div id="mainData"
+				class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+			</div>
+			<div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
+
+			<div id="row">
+				<div class="col-sm-12" id="icon">
+
+					<img id="kindimg" style="float: right" class="img-responsive "
+						src="image/kind/e.png"><img style="float: right" id="age"
+						class="img-responsive " src="image/age/20s.png"> <img
+						id="like" style="float: left; margin-right: 3px"
+						class="img-responsive hj_heart_img" src="image/like/heart.png"><span
+						style="float: left" id="likecnt">20</span> <img id="starimg"
+						class="img-responsive hj_roll_img"
+						style="float: left; margin-left: 10px" src="image/roll/r1.png">
+					<div style="clear: both"></div>
+				</div>
+				<div class=" h1_2 col-sm-12  col-md-12 col-lg-12"></div>
+				<div id="title" class=" col-sm-12  col-md-12 col-lg-12 "></div>
+
+
+				<div id="content" class=" col-sm-12  col-md-12 col-lg-12"></div>
+
+				<div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
+				<div id="location">
+					<a id="mya" href="#"> </a>에서,
+				</div>
+
+			</div>
+		</div>
+		<div id="foot"></div>
+	</div>
+</body>
+
+</html>

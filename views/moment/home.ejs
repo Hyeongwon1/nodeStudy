@@ -166,7 +166,7 @@
 			data : datas,
 			success : function(data, textStatus, jqXHR) {
 
-				location.href = "view_detail2.html?dnum=" + mybox
+				location.href = "/moment/view_detail2?dnum=" + mybox
 
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -188,8 +188,7 @@
 		}
 
 		$.ajax({
-
-			url : "home_address_selectdb.jsp",
+			url : "/moment/home_address_selectdb",
 			dataType : "json",
 			type : "get",
 			data : datas,
@@ -251,18 +250,16 @@
 		picArr = []
 
 		datas = {
-			kind : 1
+			kind : kind_num
 		}
 
 		$.ajax({
-			url : "/moment/listA",
+			url : "/moment/listinit",
 			dataType : "json",
 			type : "get",
 			data : datas,
 			success : function(data) {
-					
-			console.log("nodedata")
-			console.log(data)
+				
 				$.each(data, function(index, item) {
 
 					date = new Date()
@@ -324,7 +321,7 @@
 		}
 
 		$.ajax({
-			url : "mylike_selectdb.jsp",
+			url : "/moment/mylike_selectdb",
 			dataType : "json",
 			type : "get",
 			data : datas,
@@ -677,7 +674,7 @@
 	<div style="margin-top: 51px; width: 100%; background-color: black;">
 
 		<div class="btn-group btn-group-justified">
-			<a href="#" class="btn hbtn" id="myall" style="color: white;">ALL</a>
+			<a href="#" class="btn hbtn" id="myall" style="color: white;">전체</a>
 			<a href="#" class="btn hbtn" id="myeat" style="color: white;">EAT</a>
 			<a href="#" class="btn hbtn" id="mybuy" style="color: white;">BUY</a>
 			<a href="#" class="btn hbtn" id="myenjoy" style="color: white;">ENJOY</a>
