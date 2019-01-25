@@ -43,9 +43,6 @@ router.get('/listinit', function(req,res,next){
 	          connection.release();
 	      });
 	  });
-	  
-	  
-	  
 	});
 
 router.get('/box_select', function(req,res,next){
@@ -53,7 +50,7 @@ router.get('/box_select', function(req,res,next){
 	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no;";
 
 	      connection.query(sql, function (err, rows) {
-	    	  console.log(rows)
+//	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  
 	    	  res.send(rows);
@@ -67,7 +64,7 @@ router.get('/mylike_selectdb', function(req,res,next){
 	      var sql = "SELECT * FROM (member_tbl as mem LEFT OUTER JOIN like_tbl as mylike ON mem.m_no = mylike.m_no) LEFT OUTER JOIN data_tbl as mydata ON mylike.d_no = mydata.d_no LEFT OUTER JOIN member_tbl as mymem ON mydata.m_no = mymem.m_no;";
 
 	      connection.query(sql, function (err, rows) {
-	    	  console.log(rows)
+//	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  
 	    	  res.send(rows);
@@ -84,7 +81,7 @@ router.get('/home_address_selectdb', function(req,res,next){
 	      var sql = "select * from data_tbl as data left outer join member_tbl as mem on data.m_no =mem.m_no where d_location like ?"
 
 	      connection.query(sql,[myadd], function (err, rows) {
-	    	  console.log(rows)
+//	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  
 	    	  res.send(rows);
@@ -101,7 +98,7 @@ router.get('/data_view', function(req,res,next){
 	      var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_no = ? ";
 
 	      connection.query(sql,[dnum], function (err, rows) {
-	    	  console.log(rows)
+//	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  
 	    	  res.send(rows);
@@ -115,9 +112,9 @@ router.get('/mem_idcheckdb', function(req,res,next){
 	console.log("m_email")
 	console.log(m_email)
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM MEMBER_tbl WHERE m_email=?";
+	      var sql = "SELECT * FROM member_tbl WHERE m_email=?";
 	      connection.query(sql,[m_email], function (err, rows) {
-	    	  console.log(rows)
+//	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  
 	    	  res.send(rows);
@@ -126,4 +123,52 @@ router.get('/mem_idcheckdb', function(req,res,next){
 	  }); 
 	});
 
+router.post('/likecnt', function(req,res,next){
+	var d_no = req.param("d_no");
+	var d_like = req.param("d_cnt");
+	console.log("라이크씨앤티")
+	  pool.getConnection(function (err, connection) {
+	      var sql = "UPDATE data_tbl SET d_like=?  WHERE d_no=?";
+	      connection.query(sql,[d_no,d_like], function (err, rows) {
+	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	    	  console.log("라이크씨앤티")
+	    	  console.log("라이크씨앤티"+rows)
+	          connection.release();
+	      });
+	  }); 
+	});
+
+router.get('/likecheck', function(req,res,next){
+	var mnum = req.param("mnum");
+	console.log("라이크체크")
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT  likee.d_no, likee.m_no, data.d_like FROM data_tbl as data  LEFT OUTER JOIN like_tbl as likee ON data.d_no = likee.d_no where likee.m_no = ?";
+	  	
+	      connection.query(sql,[mnum], function (err, rows) {
+	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+router.get('/likeup', function(req,res,next){
+	var d_no = req.param("dnum");
+	var m_no = req.param("mnum");
+	console.log("라이크업")
+	  pool.getConnection(function (err, connection) {
+	      var sql = "insert into like_tbl (d_no,m_no) values(?,?)";
+	      connection.query(sql,[d_no,m_no], function (err, rows) {
+	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
 module.exports = router;

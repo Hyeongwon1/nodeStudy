@@ -44,14 +44,14 @@
 
 		$('#like').click(function() {
 			if (flag == 1) {
-				$('#like').attr('src', 'image/like/heart.png')
+				$('#like').attr('src', '/image/like/heart.png')
 				flag = 0
 				datas = {
 					d_cnt : eval("d_like-1"),
 					d_no : d_num
 				}
 				$.ajax({
-					url : 'likecnt.jsp',
+					url : '/moment/likecnt',
 					dataType : "html",
 					type : "POST",
 					data : datas,
@@ -65,14 +65,14 @@
 
 			} else if (flag == 0) {
 
-				$('#like').attr('src', 'image/like/full_heart.png')
+				$('#like').attr('src', '/image/like/full_heart.png')
 				flag = 1
 				datas = {
 					d_cnt : eval("d_like+1"),
 					d_no : d_num
 				}
 				$.ajax({
-					url : 'likecnt.jsp',
+					url : '/moment/likecnt',
 					dataType : "html",
 					type : "POST",
 					data : datas,
@@ -113,7 +113,7 @@
 				flag = 0;
 				console.log(data);
 				$.ajax({
-					url : "likecheck.jsp",
+					url : "/moment/likecheck",
 					dataType : "json",
 					data : datas,
 					type : "get",
@@ -121,11 +121,11 @@
 						$.each(data, function(index, item) {
 							if (item.d_no == dno) {
 								$('#like').attr('src',
-										'image/like/full_heart.png')
+										'/image/like/full_heart.png')
 								flag = 1;
 								return false;
 							} else {
-								$('#like').attr('src', 'image/like/heart.png')
+								$('#like').attr('src', '/image/like/heart.png')
 								flag = 0
 							}
 
@@ -144,22 +144,22 @@
 				$('#mya').text(data[0].d_location);
 				$('#likecnt').text(data[0].d_like);
 				if (data[0].d_star == 1) {
-					$('#starimg').attr('src', 'image/roll/r1.png')
+					$('#starimg').attr('src', '/image/roll/r1.png')
 				} else if (data[0].d_star == 2) {
-					$('#starimg').attr('src', 'image/roll/r2.png')
+					$('#starimg').attr('src', '/image/roll/r2.png')
 				} else if (data[0].d_star == 3) {
-					$('#starimg').attr('src', 'image/roll/r3.png')
+					$('#starimg').attr('src', '/image/roll/r3.png')
 				} else if (data[0].d_star == 4) {
-					$('#starimg').attr('src', 'image/roll/r4.png')
+					$('#starimg').attr('src', '/image/roll/r4.png')
 				} else if (data[0].d_star == 5) {
-					$('#starimg').attr('src', 'image/roll/r5.png')
+					$('#starimg').attr('src', '/image/roll/r5.png')
 				}
 				if (data[0].d_kind == 1) {
-					$('#kindimg').attr('src', 'image/kind/eat.png')
+					$('#kindimg').attr('src', '/image/kind/eat.png')
 				} else if (data[0].d_kind == 2) {
-					$('#kindimg').attr('src', 'image/kind/buy.png')
+					$('#kindimg').attr('src', '/image/kind/buy.png')
 				} else if (data[0].d_kind == 3) {
-					$('#kindimg').attr('src', 'image/kind/enjoy.png')
+					$('#kindimg').attr('src', '/image/kind/enjoy.png')
 				}
 				myvideo()
 			},
@@ -207,7 +207,7 @@
 			dnum : dno
 		}
 		$.ajax({
-			url : "data_view.jsp",
+			url : "/moment/data_view",
 			dataType : "json",
 			data : datas,
 			type : "get",
@@ -230,7 +230,7 @@
 			m_email : s_m_email
 		}
 		$.ajax({
-			url : "moment/mem_idcheckdb",
+			url : "/moment/mem_idcheckdb",
 			dataType : "json",
 			type : "get",
 			data : datas,
@@ -255,7 +255,7 @@
 		}
 
 		$.ajax({
-			url : "likeup.jsp",
+			url : "/moment/likeup",
 			dataType : "json",
 			data : datas,
 			type : "get",
@@ -323,14 +323,11 @@
 			<div id="row">
 				<div class="col-sm-12" id="icon">
 
-					<img id="kindimg" style="float: right" class="img-responsive "
-						src="image/kind/e.png"><img style="float: right" id="age"
-						class="img-responsive " src="image/age/20s.png"> <img
-						id="like" style="float: left; margin-right: 3px"
-						class="img-responsive hj_heart_img" src="image/like/heart.png"><span
-						style="float: left" id="likecnt">20</span> <img id="starimg"
-						class="img-responsive hj_roll_img"
-						style="float: left; margin-left: 10px" src="image/roll/r1.png">
+					<img id="kindimg" style="float: right" class="img-responsive " src="/image/kind/e.png">
+					<img style="float: right" id="age" class="img-responsive " src="/image/age/20s.png"> 
+					<img id="like" style="float: left; margin-right: 3px" class="img-responsive hj_heart_img" src="/image/like/heart.png">
+					<span style="float: left" id="likecnt">20</span> 
+					<img id="starimg" class="img-responsive hj_roll_img" style="float: left; margin-left: 10px" src="/image/roll/r1.png">
 					<div style="clear: both"></div>
 				</div>
 				<div class=" h1_2 col-sm-12  col-md-12 col-lg-12"></div>
