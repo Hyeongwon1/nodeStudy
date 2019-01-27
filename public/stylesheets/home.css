@@ -1,16 +1,16 @@
 @font-face {
 	font-family: "Am";
-	src: url("font/AmaticSC-Regular.ttf");
+	src: url("/font/AmaticSC-Regular.ttf");
 }
 
 @font-face {
 	font-family: "º≥∑Ω";
-	src: url("font/210 º≥∑Ω¡÷¿«B.ttf")
+	src: url("/font/210 º≥∑Ω¡÷¿«B.ttf")
 }
 
 @font-face {
 	font-family: "≥™¥Æ∞ÌµÒ";
-	src: url("font/NANUMBARUNGOTHIC.TTF")
+	src: url("/font/NANUMBARUNGOTHIC.TTF")
 }
 
 div {

@@ -1,25 +1,25 @@
 @font-face {
 	font-family: "나눔고딕";
-	src: url("font/NANUMBARUNGOTHIC.TTF")
+	src: url("/font/NANUMBARUNGOTHIC.TTF")
 }
 
 @font-face {
 	font-family: "설렘";
-	src: url("font/210 설렘주의B.ttf")
+	src: url("/font/210 설렘주의B.ttf")
 }
 
 @font-face {
-	font-family: "타이포";
-	src: url("font/Typo_PapyrusM.ttf")
+	font-family: "���씠�룷";
+	src: url("/font/Typo_PapyrusM.ttf")
 }
 
 @font-face {
 	font-family: "Am";
-	src: url("font/AmaticSC-Regular.ttf")
+	src: url("/font/AmaticSC-Regular.ttf");
 }
 
 body {
-	font-family: "나눔고딕";
+	font-family: "�굹�닎怨좊뵓";
 	letter-spacing: -1px;
 }
 
@@ -52,7 +52,7 @@ body {
 	font-size: 16pt;
 	margin-bottom: 10px;
 	text-shadow: #999999 2px 2px 2px;
-	font-family: "설렘";
+	font-family: "�꽕�젞";
 }
 
 #location {

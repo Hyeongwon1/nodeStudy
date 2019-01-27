@@ -17,6 +17,28 @@ router.get('/view_detail2', function(req, res, next) {
 //	res.send('aaaaa');
 });
 
+router.get('/home', function(req,res,next){
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
+
+	      connection.query(sql, function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	          res.render('./moment/home', {data: rows});
+	          connection.release();
+	      });
+	  }); 
+	});
+
+router.get('/mem_login', function(req,res,next){
+	res.render('./moment/mem_login');
+	});
+
+router.get('/mem_insert', function(req,res,next){
+	res.render('./moment/mem_insert');
+	});
+
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
       var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
@@ -29,6 +51,20 @@ router.get('/list', function(req,res,next){
           connection.release();
       });
   }); 
+});
+
+router.get('/home_mypage', function(req,res,next){
+	var dnum =req.param('num');
+	console.log("dnuddddm")
+	console.log(dnum)
+	res.render('./moment/home_mypage',{data:dnum} );
+});
+
+router.get('/upload', function(req,res,next){
+	var dnum =req.param('num');
+	console.log("dnuddddm")
+	console.log(dnum)
+	res.render('./moment/upload',{data:dnum} );
 });
 
 router.get('/listinit', function(req,res,next){
@@ -90,6 +126,24 @@ router.get('/home_address_selectdb', function(req,res,next){
 	  }); 
 	});
 
+router.get('/home_selectdblike', function(req,res,next){
+	
+	var k_num =req.param('kind');
+	console.log(k_num)
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_like desc;";
+
+	      connection.query(sql,[k_num], function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
+
 router.get('/data_view', function(req,res,next){
 	var dnum =req.param('dnum');
 	console.log("dvvvvnum")
@@ -106,6 +160,22 @@ router.get('/data_view', function(req,res,next){
 	      });
 	  }); 
 	});
+
+router.get('/mem_logindb', function(req,res,next){
+	var mail =req.param('m_email');
+	var pw =req.param('m_pw');
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM member_tbl WHERE m_email=? and m_pw=?";
+	      connection.query(sql,[mail,pw], function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
 
 router.get('/mem_idcheckdb', function(req,res,next){
 	var m_email =req.param('m_email');
@@ -162,6 +232,22 @@ router.get('/likeup', function(req,res,next){
 	console.log("라이크업")
 	  pool.getConnection(function (err, connection) {
 	      var sql = "insert into like_tbl (d_no,m_no) values(?,?)";
+	      connection.query(sql,[d_no,m_no], function (err, rows) {
+	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
+router.get('/likedown', function(req,res,next){
+	var d_no = req.param("dnum");
+	var m_no = req.param("mnum");
+	console.log("라이크업")
+	  pool.getConnection(function (err, connection) {
+	      var sql = "delete from  like_tbl where d_no=? and m_no=?";
 	      connection.query(sql,[d_no,m_no], function (err, rows) {
 	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
