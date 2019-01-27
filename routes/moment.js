@@ -38,6 +38,13 @@ router.get('/mem_login', function(req,res,next){
 router.get('/mem_insert', function(req,res,next){
 	res.render('./moment/mem_insert');
 	});
+router.get('/mem_select', function(req,res,next){
+	res.render('./moment/mem_select');
+	});
+router.get('/mem_search', function(req,res,next){
+	res.render('./moment/mem_search');
+	});
+
 
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
@@ -100,6 +107,55 @@ router.get('/mylike_selectdb', function(req,res,next){
 	      var sql = "SELECT * FROM (member_tbl as mem LEFT OUTER JOIN like_tbl as mylike ON mem.m_no = mylike.m_no) LEFT OUTER JOIN data_tbl as mydata ON mylike.d_no = mydata.d_no LEFT OUTER JOIN member_tbl as mymem ON mydata.m_no = mymem.m_no;";
 
 	      connection.query(sql, function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
+router.post('/mem_searchdb', function(req,res,next){
+	var m_no =req.param('num');
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM member_tbl WHERE m_no=?";
+
+	      connection.query(sql,[m_no], function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+router.get('/mem_selectdb', function(req,res,next){
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM member_tbl ";
+
+	      connection.query(sql , function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
+router.post('/mem_updatedb', function(req,res,next){
+	var m_no		= req.param('m_no');
+	var m_email    	= req.param("m_email");
+	var m_pw		= req.param("m_pw");
+	var m_nick    	= req.param("m_nick");
+	var m_birth   	= req.param("m_birth");
+	var m_phone   	= req.param("m_phone");
+	var count   = "";
+	  pool.getConnection(function (err, connection) {
+	      var sql = "update member_tbl set m_nick=?,m_pw=?,m_phone=? where m_no=?";
+	  	
+	      connection.query(sql,[m_nick,m_pw,m_phone,m_no], function (err, rows) {
 //	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  

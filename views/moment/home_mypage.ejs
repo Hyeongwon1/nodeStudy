@@ -35,7 +35,7 @@
 
 	function searchFn() {
 		$.ajax({
-			url : 'mem_searchdb.jsp?num=' + sq,
+			url : '/moment/mem_searchdb?num=' + sq,
 			dataType : "json",
 			type : "post",
 			success : function(data) {
@@ -69,15 +69,15 @@
 			datas={m_no:$('#m_no').val(),m_email:$('#m_email').val(),m_pw:$('#m_pw').val(),m_nick:$('#m_nick').val(),m_birth:$('#m_birth').val(),m_phone:$('#m_phone').val()}
 			console.log("aaa");
 			$.ajax({
-				url : 'mem_updatedb.jsp',
-				dataType : "html",
+				url : '/moment/mem_updatedb',
+				dataType : "json",
 				type : "POST",
 				data : datas,
 				success : function(data) {
 					console.log("aaa")
 					alert("가입완료");
 
-					location.href = "mem_select.html";
+					location.href = "/moment/mem_select";
 				},
 				error : function(err) {
 					alert("실패");
