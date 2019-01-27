@@ -1,0 +1,35 @@
+@font-face {
+	font-family: "Am";
+	src: url("font/AmaticSC-Regular.ttf")
+}
+
+#mycon {
+	
+}
+
+#mybody {
+	vertical-align: middle;
+	background-size: 500px 700px; 
+	
+}
+
+#loginform {
+	position: relative;
+	vertical-align: middle;
+	width: 300px;
+	margin: auto;
+}
+
+#button {
+	position: relative;
+	margin: auto;
+	text-align: center;
+   
+}
+
+.hbtn {
+   background-color: black;
+   font-family: "Am";
+   color: white;
+   font-size:14pt;
+}

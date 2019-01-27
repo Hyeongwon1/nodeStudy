@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>mypage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel='stylesheet' href='/stylesheets/home_mypage.css' />
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+
+</style>
+
+<script>
+	$(document).ready(function() {
+		$("#head").load("header.html");
+		$("#foot").load("footer.html");
+		  $('#homehome').click(function() { 
+			  location.href="home.html"
+		  })
+		fd() 
+	})
+
+	function fd() {
+		my = location.search
+		s = my.split(/[?=]/g)
+		sq = s[s.length - 1]
+		console.log(sq)
+		searchFn()
+	}
+
+	function searchFn() {
+		$.ajax({
+			url : 'mem_searchdb.jsp?num=' + sq,
+			dataType : "json",
+			type : "post",
+			success : function(data) {
+
+				$.each(data, function(index, item) {
+					console.log(item)
+					console.log(index, item.m_no, item.m_email)
+
+					$('#m_no').val(item.m_no)
+					$('#m_email').val(item.m_email) 
+					$('#m_pw').val(item.m_pw)
+					$('#m_nick').val(item.m_nick) 
+					$('#m_birth').val(item.m_birth)
+					$('#m_phone').val(item.m_phone)
+
+				})
+
+			
+
+				// 				location.href = "./M_select.do";
+			},
+			error : function(err) {
+				alert("실패");
+			}
+		});
+	}
+
+
+	function ajaxUpdate() {
+
+			datas={m_no:$('#m_no').val(),m_email:$('#m_email').val(),m_pw:$('#m_pw').val(),m_nick:$('#m_nick').val(),m_birth:$('#m_birth').val(),m_phone:$('#m_phone').val()}
+			console.log("aaa");
+			$.ajax({
+				url : 'mem_updatedb.jsp',
+				dataType : "html",
+				type : "POST",
+				data : datas,
+				success : function(data) {
+					console.log("aaa")
+					alert("가입완료");
+
+					location.href = "mem_select.html";
+				},
+				error : function(err) {
+					alert("실패");
+				}
+
+			});
+	}
+	
+	function ajaxDelete() {
+		
+		
+		var con_test = confirm("정말 탈퇴할거?????");
+		if(con_test == true){ 
+		  datas={m_no:$('#m_no').val(),m_email:$('#m_email').val(),m_pw:$('#m_pw').val(),m_nick:$('#m_nick').val(),m_birth:$('#m_birth').val(),m_phone:$('#m_phone').val()}
+			console.log("aaa");
+			$.ajax({
+				url : 'mem_deletedb.jsp',
+				dataType : "html",
+				type : "POST",
+				data : datas,
+				success : function(data) {
+					console.log("aaa")
+					alert("탈퇴완료");
+
+					location.href = "mem_select.html";
+				},
+				error : function(err) {
+					alert("실패");
+				}
+
+			});
+		  
+		}
+		else if(con_test == false){
+
+		  location.href = "mem_select.html"
+		}
+
+		
+}
+	function logoutfn() {
+
+		sessionStorage.removeItem('m_email')
+		//로컬스토리지 삭제
+		location.href = '/moment/mem_login'
+
+	}
+	
+</script>
+<script>
+function myh() {
+	location.href="home.html"
+}
+</script>
+</head>
+<body>
+	      <div id="head" onclick= "myh()"></div>
+	<br>
+
+	<div class="container" id="mycon" style="height: 100%;">
+       <div class="row">
+		<form id="mypageform" style="margin-top: 60px;">
+			
+			<input type="hidden" class="form-control" name="m_no" id="m_no" size="10"placeholder="Enter email">
+		
+			<div class="form-group">
+				<label for="m_email">Email:</label> 
+				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email" disabled>
+			</div>
+			<div class="form-group">
+				<label for="m_pw">Password:</label> 
+				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password">
+			</div>
+			<div class="form-group">
+				<label for="m_pw1">Password1:</label> 
+				<input type="password" class="form-control" name="m_pw1" id="m_pw1" size="10" placeholder="Enter password1">
+			</div>
+			<div class="form-group">
+				<label for="m_phone">phone:</label> 
+				<input type="tel" class="form-control" name="m_phone" id="m_phone" size="10" placeholder="Enter phone">
+			</div>
+			
+			<div class="form-group">
+				<label for="m_nick">nickname:</label> 
+				<input type="text" class="form-control" name="m_nick" id="m_nick" size="10" placeholder="Enter nick">
+			</div>
+			<div class="form-group">
+				<label for="m_birth">birth:</label> 
+				<input type="date" class="form-control" name="m_birth" id="m_birth" size="10" placeholder="Enter nick">
+			</div>
+			
+		</form>
+		<div id="button">
+		<button class="btn btn-default" onclick="ajaxUpdate()">수정</button>
+		<button class="btn btn-default" onclick="logoutfn()">로그아웃</button>
+		<button class="btn btn-default" onclick="ajaxDelete()">탈퇴</button> 
+	    </div>
+	  </div>
+	</div>
+	 <div id="foot" style="margin-top:100px;" ></div>
+</body>
+ 
+</html>

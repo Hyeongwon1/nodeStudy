@@ -1,0 +1,127 @@
+@font-face {
+   font-family: "Am";
+   src: url("font/AmaticSC-Regular.ttf")
+}
+
+.sk_head {
+   text-align: center;
+   height: 50px;
+   background-color: black;
+   color: white;
+   font-family: "AM";
+   font-size: 25pt;
+   vertical-align: middle;
+}
+
+.sk_foot {
+   text-align: center;
+   height: 30px;
+   background-color: black;
+   color: white;
+   font-family: "AM";
+   font-size: 14pt;
+   vertical-align: middle;
+}
+
+#up_tb {
+   display: inline;
+}
+
+a {
+   font-family: "나눔";
+   font-size: 15px;
+}
+
+td {
+   font-family: "나눔";
+   font-weight: bold;
+}
+
+#d_img {
+   width: 56px;
+   height: 56px;
+}
+
+#img_td {
+   padding-left: 10px
+}
+
+#bt_td {
+   text-align: right
+}
+
+#title_p, #star_p, #com_p, #comment_p {
+   text-shadow: #999999 1px 1px 1px;
+   font-size: 10pt;
+}
+
+#write_a {
+   font-family: AM
+}
+
+#location_img {
+   width: 8px;
+   height: 10px;
+}
+
+#d_location, #d_title, #d_content {
+   text-align: right;
+   border-top: solid 1px white;
+   border-left: solid 1px white;
+   border-right: solid 1px white;
+}
+
+#write_img, #cancel_img {
+   width: 10px;
+   height: 10px;
+}
+
+.hbtn {
+   background-color: black;
+   font-family: "Am";
+   color: white;
+   font-size: 10pt;
+   height: 30px;
+}
+
+.kind_cl {
+   background-color: black;
+   font-family: "Am";
+   color: white;
+   font-size: 12pt;
+}
+
+#video_img, #camera_img, #gallery_img {
+   width: 15px;
+   height: 15px;
+}
+
+.ui-loading .ui-loader {
+   display: block;
+}
+
+.ui-loader {
+   display: none;
+   position: absolute;
+   opacity: .85;
+   z-index: 100;
+   left: 50%;
+   width: 200px;
+   margin-left: -130px;
+   margin-top: -35px;
+   padding: 10px 30px;
+}
+
+#imginput {
+   opacity: 0; /*input type="file" tag 투명하게 처리*/
+   position: relative;
+   background-color: transparent;
+}
+
+button.replace { /*button tag 에 원하는 스타일 적용*/
+   position: absolute;
+   width: 27px;
+   height: 27px;
+   background-image: url("image/camera_icon.png");
+   cursor: pointer;
+}
