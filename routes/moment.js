@@ -1,21 +1,49 @@
+const multer = require('multer');
 var express = require('express');
 var router = express.Router();
 
+const upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
+
+const path = require('path');
+//const upload = multer({
+//  storage: multer.diskStorage({
+//    destination: function (req, file, cb) {
+//      cb(null, 'uploads/');
+//    },
+//    filename: function (req, file, cb) {
+//      cb(null, new Date().valueOf() + path.extname(file.originalname));
+//    }
+//  }),
+//});
+
 var pool 		= require('./mysqlConn');
 
+//router.post('/imgup', upload.single('test4'), (req, res) => {
+//	  console.log(req.file); 
+//});
+
+//app.post('/upload', upload.single('userfile'), function(req, res){
+//	  res.send('Uploaded! : '+req.file); // object를 리턴함
+//	  console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
+//	});
+
+router.post('/imgup', function(req, res, next) {
+	console.log(req.body);
+    console.log(req.files);
+	  upload(req, res).then(function (file) {
+	    res.json(file);
+	  }, function (err) {
+	    res.send(500, err);
+	  });
+	});
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-
-router.get('/view_detail2', function(req, res, next) {
-	var dnum =req.param('dnum');
-	console.log("dnuddddm")
-	console.log(dnum)
-	res.render('./moment/view_detail2',{data:dnum} );
-//	res.send('aaaaa');
-});
+router.get('/header', function(req,res,next){
+	res.render('./moment/header');
+	});
 
 router.get('/home', function(req,res,next){
 	  pool.getConnection(function (err, connection) {
@@ -31,6 +59,14 @@ router.get('/home', function(req,res,next){
 	  }); 
 	});
 
+router.get('/view_detail2', function(req, res, next) {
+	var dnum =req.param('dnum');
+	console.log("dnuddddm")
+	console.log(dnum)
+	res.render('./moment/view_detail2',{data:dnum} );
+//	res.send('aaaaa');
+});
+
 router.get('/mem_login', function(req,res,next){
 	res.render('./moment/mem_login');
 	});
@@ -38,13 +74,14 @@ router.get('/mem_login', function(req,res,next){
 router.get('/mem_insert', function(req,res,next){
 	res.render('./moment/mem_insert');
 	});
+
 router.get('/mem_select', function(req,res,next){
 	res.render('./moment/mem_select');
 	});
+
 router.get('/mem_search', function(req,res,next){
 	res.render('./moment/mem_search');
 	});
-
 
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
@@ -149,6 +186,29 @@ router.get('/mem_selectdb', function(req,res,next){
 	      var sql = "SELECT * FROM member_tbl ";
 
 	      connection.query(sql , function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
+router.get('/uploaddb', function(req,res,next){
+	   var m_no 		= req.param("m_no");
+	   var d_kind     	= req.param("d_kind");
+	   var d_location   = req.param("d_location");
+	   var d_title   	= req.param("d_title");
+	   var d_content   	= req.param("d_content");
+	   var d_star 		= req.param("d_star");
+	   var d_path 		= req.param("d_path");
+	   var count   = "";
+	   
+	  pool.getConnection(function (err, connection) {
+	      var sql = "insert into data_tbl(m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star,d_like)values(?,sysDate(),?,?,?,?,?,?,0)";
+	      
+	      connection.query(sql,[m_no,d_kind,d_location,d_title,d_content,d_star,d_path], function (err, rows) {
 //	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
 	    	  

@@ -17,8 +17,8 @@
 <script>
 $(document).ready(init)
 function init() {
-      $("#head").load("header.html"); 
-       $("#foot").load("footer.html");
+      $("#head").load("/moment/header"); 
+       $("#foot").load("/moment/footer");
       /*         
       if(kind_num == 0 ){
          $('#myall').css('background-color','#01A9DB') 
@@ -75,8 +75,8 @@ function init() {
                             });
                        console.log(data) 
                         $.ajax({
-                                url: 'imgup.jsp',
-                               type: "post",
+                               url: "/moment/imgup",
+                               type: "POST",
                                dataType: "text",
                                data: data,
                                processData: false,
@@ -89,7 +89,7 @@ function init() {
                                          m_email : s_m_email
                                       }
                                $.ajax({
-                                         url : "mem_idcheckdb.jsp",
+                                         url : "/moment/mem_idcheckdb",
                                          dataType : "json",
                                          type : "get",
                                          data : datas,
@@ -115,15 +115,15 @@ function init() {
                                                  d_path : myimgpath
                                            }
                                         $.ajax({
-                                                 url : "upload.jsp",
+                                                 url : "/moment/uploaddb",
                                                  dataType : "json",
                                                  type : "get",
                                                  data : datas,
                                                  success : function(data, textStatus, jqXHR) { 
-                                                     location.href="home.html"
+                                                     location.href="/moment/home"
                                                  },
                                                 error : function(jqXHR, textStatus, errorThrown) {
-                                                    location.href="home.html"
+                                                    location.href="/moment/home"
                                           }//둘 아작스 에러
                                          });//둘 아작스 끝
                                     }//서치 성공...
@@ -187,7 +187,7 @@ function init() {
 </script>
 <script>
 function myh() {
-   location.href="home.html"
+   location.href="/moment/home"
 }
 </script>
 </head>
@@ -268,7 +268,7 @@ function myh() {
             <img id="write_img" src="image/pencil2.png"> Write
          </a> 
          
-         <a href="home.html" id="cancel_a" class="btn hbtn"
+         <a href="/moment/home" id="cancel_a" class="btn hbtn"
             style="color: white;"> <img id="cancel_img"
             src="image/cancel_icon3.png">Cancel
          </a>
