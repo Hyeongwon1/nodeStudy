@@ -116,6 +116,20 @@ router.get('/mylike_selectdb', function(req,res,next){
 	  }); 
 	});
 
+router.get('/myrecord_selectdb', function(req,res,next){
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM member_tbl as mem LEFT OUTER JOIN data_tbl as mydata ON mem.m_no = mydata.m_no;";
+
+	      connection.query(sql, function (err, rows) {
+//	    	  console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	    	  res.send(rows);
+	          connection.release();
+	      });
+	  }); 
+	});
+
 router.post('/mem_searchdb', function(req,res,next){
 	var m_no =req.param('num');
 	  pool.getConnection(function (err, connection) {
