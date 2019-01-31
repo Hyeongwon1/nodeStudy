@@ -1,20 +1,20 @@
 @font-face {
 	font-family: "Am";
-	src: url("font/AmaticSC-Regular.ttf");
+	src: url("/font/AmaticSC-Regular.ttf");
 }
 
 @font-face {
-	font-family: "¼³·½";
-	src: url("font/210 ¼³·½ÁÖÀÇB.ttf")
+	font-family: "ï¿½ï¿½ï¿½ï¿½";
+	src: url("/font/210 ì„¤ë ˜ì£¼ì˜B.ttf")
 }
 
 @font-face {
-	font-family: "³ª´®°íµñ";
-	src: url("font/NANUMBARUNGOTHIC.TTF")
+	font-family: "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+	src: url("/font/NANUMBARUNGOTHIC.TTF")
 }
 
 div {
-	font-family: "³ª´®°íµñ";
+	font-family: "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	text-shadow: #999999 1px 1px 1px;
 }
 

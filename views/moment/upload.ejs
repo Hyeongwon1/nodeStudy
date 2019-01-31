@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>Bootstrap Exampl</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel='stylesheet' href='/stylesheets/upload.css' />
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<style>
+
+</style>
+<script>
+$(document).ready(function() { 
+	   $("#head").load("/moment/header"); 
+       $("#foot").load("/moment/footer");
+       
+	   myimgpath = ""
+       myf = ""
+       upload1 = document.getElementsByTagName('input')[1]
+       holder = document.getElementById('holder')
+       
+       upload1.onchange = function(e) {
+           e.preventDefault(); 
+           file = upload1.files[0], reader = new FileReader(); 
+           reader.onload = function(event) { 
+              myfile = event.target.result
+              console.log(myfile)
+              if (myfile.includes("image")) {
+                 console.log("3")
+                 myf = "img"
+                 var img = new Image();
+                 img.src = event.target.result;
+                 console.log("event.target.result : "
+                       + event.target.result)
+                 if (img.width > 56) {
+                    img.width = 56;
+                 }
+                 if (img.width < 56) {
+                     img.width = 56;
+                  }
+                 if (img.height > 56) {
+                    img.height = 56;
+                 }
+                 if (img.height < 56) {
+                     img.height = 56;
+                  }
+
+                 $('#imgvideo').append("<div id='holder'></div>")
+                 console.log(mybody)
+              } else if (myfile.includes("video")) {  
+                 myf = "vd"
+                 $('#imgvideo').append("<video id='myvideo' style='width:56px; height:56px;' autoplay='true'></video>")
+                 myvideo.load(); 
+                 $('#myvideo').append("<source src='"+ event.target.result +"'></source>")
+              }
+
+              if (myf == "img") {
+                 $('#holder').append(img);
+              }
+           };
+           reader.readAsDataURL(file);
+
+           return false;
+        };
+ 
+		$("#write_bt").on('click', function(e){ imgdata(e); });
+		
+   });
+          
+		function imgdata(){
+			console.log("file ")
+			console.log(file)
+			console.log("up")
+// 			console.log(upload1.files[0])
+// 			console.log(upload1.files[0])
+// 			var form_data = new FormData(upload1.files[0]);
+			  var form_data = new FormData();
+			  form_data.append('file', file);
+//             form_data.append(])
+//             $.each(upload1.files[0], function(i, file) { 
+// 							console.log("asdsadsad")                        	   
+//                form_data.append('file-' + i, file);
+//              });
+//             for (var key of form_data.entries()) {
+//                 console.log(key[0] + ', ' + key[1]);
+//             }
+//             imgup(formData)
+            
+//             function imgup(data){
+           	 console.log("data")
+           	 console.log(form_data)
+           	 $.ajax({
+                    url: "/moment/imgup",
+                    type: "POST",
+                    dataType: "text",
+                    processData: false,
+                    contentType: false,
+                    data: form_data,
+                       success: function(data){
+                    	   console.log("inmg")
+                    	   console.log(data)
+                       myimgpath = data    
+                       s_m_email=sessionStorage.m_email
+                         console.log(s_m_email)
+                         datas = {
+                              m_email : s_m_email
+                           }
+                       mem_idcheckdb(datas)
+                     },error : function(err) { 
+                        console.log("imgup error")
+                   
+                  }//첫아작스 에러
+               }); //첫 아작스          				 
+//              }; 
+		}	
+         
+         
+          			                                 
+
+         
+         function mem_idcheckdb(datas){
+        	 $.ajax({
+                 url : "/moment/mem_idcheckdb",
+                 dataType : "json",
+                 type : "get",
+                 data : datas,
+                 success : function(data, textStatus, jqXHR) {
+                    console.log("data:" + data);
+                    var email = $('#m_email').val()
+                    if (data == '') {
+
+                       alert("잘못된 접급입니댜.");
+                    } else {
+                    console.log("data:" + data[0].m_no);
+                    console.log("data:" + data[0].m_email);
+                    console.log("data:" + data[0].m_pw);
+                    console.log("data:" + data[0].m_nick);
+                    console.log("data:" + data[0].m_birth); 
+                 datas = {
+                        m_no : data[0].m_no,
+                         d_kind : $('#d_kind').val(),
+                         d_location : $('#d_location').val(),
+                         d_title : $('#d_title').val(),
+                         d_content : $('#d_content').val(),
+                         d_star : $('#d_star').val(),
+                         d_path : myimgpath
+                   }
+                 console.log("datas")
+                 console.log(datas)
+                 uploaddb(datas)
+            }//서치 성공...
+         			},error : function(jqXHR, textStatus, errorThrown) {
+                    alert("실패");
+                 }
+           });//서치아이작스 끝           				 
+          };                      
+                       
+                       
+           function uploaddb(datas){
+				 $.ajax({
+			         url : "/moment/uploaddb",
+			         dataType : "json",
+			         type : "get",
+			         data : datas,
+			         success : function(data, textStatus, jqXHR) { 
+			             location.href="/moment/home"
+			         },
+			        error : function(jqXHR, textStatus, errorThrown) {
+			             location.href="/moment/home"
+					  }
+				});  
+			}
+                       
+                       
+                       
+            function sample6_execDaumPostcode() {
+                      new daum.Postcode(
+                          {
+                              oncomplete : function(data) {
+                                  var fullAddr = '';
+                                  var extraAddr = '';
+                                  if (data.userSelectedType === 'R') {
+                                      fullAddr = data.roadAddress;
+                                  } else {
+                                      fullAddr = data.jibunAddress;
+                                  }
+                                  if (data.userSelectedType === 'R') {
+                                      if (data.bname !== '') {
+                                          extraAddr += data.bname;
+                                      }
+                                      if (data.buildingName !== '') {
+                                          extraAddr += (extraAddr !== '' ? ', '
+                                              + data.buildingName
+                                              : data.buildingName);
+                                      }
+                                      fullAddr += (extraAddr !== '' ? ' ('
+                                          + extraAddr + ')'
+                                          : '');
+                                  }
+                                  document
+                                      .getElementById('d_location').value = fullAddr;
+                                  document.getElementById(
+                                      'd_location').focus();
+                              }
+                          }).open();
+                  }         
+   
+function myh() {
+   location.href="/moment/home"
+}
+</script>
+</head>
+
+<body id="mybody">
+      <div style="margin-top: 100px;" id="head" onclick= "myh()"></div>
+
+   <div> 
+      <div style="margin-top: 100px;"></div>
+      <div style="text-align: center">
+         <table id="up_tb">
+            <tr>
+               <td colspan="3">
+                  <div class="form-group kind_cl">
+                     <select class="form-control" id="d_kind" name="d_kind">
+                        <option value="1">EAT</option>
+                        <option value="2">BUY</option>
+                        <option value="3">ENJOY</option>
+                     </select>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><p id="title_p">TITLE</p></td>
+               <td><input type="text" id="d_title" name="d_title"></td>
+               <td id="mytd">
+                  <div id='imgvideo' style='width: 56px; height: 56px;'></div>
+               </td>
+
+            </tr>
+            <tr>
+               <td colspan="3">
+                  <form id="fileForm" enctype="multipart/form-data">
+                     <button class="replace"></button>
+                     <input type=file id="imginput" name="test4" class="upload1">
+                  </form>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <p onclick="sample6_execDaumPostcode()">
+                     <img id="location_img" src="/image/location1.png">
+                  </p>
+               </td>
+               <td colspan="2"><input onclick="sample6_execDaumPostcode()"
+                  type="text" id="d_location" name="d_location" placeholder="주소">
+               </td>
+
+            </tr>
+            <tr>
+               <td><p id="comment_p">COMMENT</p></td>
+               <td colspan="2"><input type="text" id="d_content"
+                  name="d_content"></td>
+            </tr>
+            <tr>
+               <td><p id="star_p">별점</p></td>
+               <td colspan="2">
+                  <div>
+                     <select id="d_star" name="d_star">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                     </select>
+                  </div>
+               </td>
+            </tr>
+
+         </table>
+      </div>
+      <br> <br>
+
+
+
+      <div style="text-align: center">
+
+         <a href="#" id="write_bt" class="btn hbtn" style="color: white;">
+            <img id="write_img" src="/image/pencil2.png"> Write
+         </a> 
+         
+         <a href="/moment/home" id="cancel_a" class="btn hbtn" style="color: white;"> 
+         	<img id="cancel_img" src="/image/cancel_icon3.png">Cancel
+         </a>
+      </div>
+
+      <div id="foot" class="sk_foot navbar-fixed-bottom">⊙
+         Copyright(c)2017 TT All rights reserved.</div>
+   </div>
+</body>
+</html>

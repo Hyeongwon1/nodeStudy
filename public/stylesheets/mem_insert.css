@@ -1,0 +1,41 @@
+
+#mybody {
+	vertical-align: middle;
+	background-size: 500px 700px;
+	background-image: url("image/a (3).jpg");
+}
+
+#mypageform {
+	position: relative;
+	vertical-align: middle;
+	width: 300px;
+	margin: auto;
+}
+
+#button {
+	position: relative;
+	margin: auto;
+	text-align: center;
+   
+}
+
+#bottom_nav {
+	margin-bottom: 31px;
+	background-color: black;
+}
+
+.fbtn:active {
+	background-color: #01A9DB;
+}
+
+.fbtn:hover {
+	background-color: #01A9DB;
+}
+
+.hbtn:active {
+	background-color: #01A9DB;
+}
+
+.hbtn:hover {
+	background-color: #01A9DB;
+}

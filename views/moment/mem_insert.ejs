@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel='stylesheet' href='/stylesheets/mem_insert.css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+
+</style>
+
+<script>
+	$(document).ready(function() {
+
+		$("#head").load("header.html");
+		$("#foot").load("footer.html");
+
+		isIdChecked = false;
+		isnickChecked = false;
+
+		$("#submit").on("click", function() {
+
+			if (isIdChecked == false) {
+
+				alert("아이디중복체크 하세요");
+				return false;
+
+			}
+			if (isnickChecked == false) {
+
+				alert("닉중복체크 하세요");
+
+			} else {
+
+				datas = {
+					m_email : $('#m_email').val(),
+					m_pw : $('#m_pw').val(),
+					m_nick : $('#m_nick').val(),
+					m_birth : $('#m_birth').val(),
+					m_phone : $('#m_phone').val()
+				}
+				console.log("aaa");
+				$.ajax({
+					url : 'mem_insertdb.jsp',
+					dataType : "html",
+					type : "POST",
+					data : datas,
+					success : function(data) {
+						console.log(data)
+						alert("가입완료");
+
+						location.href = "moment/mem_login";
+					},
+					error : function(err) {
+						alert("실패");
+					}
+				});
+			}
+		});
+
+	});
+
+	function nickcheck() {
+
+		datas = {
+			m_nick : $('#m_nick').val()
+		}
+		$.ajax({
+			url : "mem_nickcheckdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data) {
+
+				if (data == '') {
+
+					alert("닉네임사용가능합니다.");
+					isnickChecked = true;
+
+				} else {
+					alert("닉네임사용불가능.");
+
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
+
+	function idcheck() {
+
+		datas = {
+			m_email : $('#m_email').val()
+		}
+		$.ajax({
+			url : "/moment/mem_idcheckdb",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data) {
+				var email = $('#m_email').val()
+				console.log("data:" + data);
+				console.log("data:" + data);
+				if (data == '') {
+
+					alert("사용가능합니다.");
+					isIdChecked = true;
+
+				} else {
+					alert("사용불가능.");
+
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+
+	}
+
+	$(function() {
+
+		$('#m_pw').keyup(
+				function() {
+					var reg_pwd = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+					if (!reg_pwd.test($('#m_pw').val())) {
+						$("#m_pw1").val('')
+						$("#pwpwd1").attr("class", "form-group");
+						//                      $("#pwpws1").attr("class","glyphiconm");
+						$("#pwcheck1").text(' ')
+						$("#pwpwd").attr("class",
+								"form-group has-error has-feedback");
+						//                      $("#pwpws").attr("class","glyphicon glyphicon-remove form-control-feedback");
+						$("#pwcheck").text('형식이 올바르지 않습니다. 6~20자 이내 영문,숫자 조합')
+						$("#m_pw1").prop('disabled', true);
+						return false;
+
+					} else if (reg_pwd.test($('#m_pw').val())) {
+						$("#m_pw1").prop('disabled', false);
+						$("#pwcheck").text('안전한 비밀번호입니다.')
+						$("#pwpwd").attr("class",
+								"form-group has-success has-feedback");
+						//                $("#pwpws").attr("class","glyphicon glyphicon glyphicon-ok form-control-feedback");
+
+						return true;
+					}
+				});
+		$('#m_pw1').keyup(
+				function() {
+					if ($('#m_pw').val() == $('#m_pw1').val()) {
+						$("#pwcheck1").text('비밀번호가 일치합니다.')
+						$("#pwpwd1").attr("class",
+								"form-group has-success has-feedback");
+						//                      $("#pwpws1").attr("class","glyphicon glyphicon glyphicon-ok form-control-feedback");
+
+					} else if ($('#m_pw').val() != $('#m_pw1').val()) {
+						$("#pwcheck1").text('비밀번호가 일치하지않습니다.')
+						$("#pwpwd1").attr("class",
+								"form-group has-error has-feedback");
+						//                      $("#pwpws1").attr("class","glyphicon glyphicon-remove form-control-feedback");
+					}
+
+				});
+
+		$('#m_email')
+				.keyup(
+						function() {
+							m_email = $('#m_email').val()
+							var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+							re.test()
+							if (m_email == "" || !re.test(m_email)) {
+
+								$("#m_email_d").attr("class",
+										"form-group has-error has-feedback");
+								//          $("#m_email_s").attr("class","glyphicon glyphicon-remove form-control-feedback");
+							} else {
+								$("#m_email_d").attr("class",
+										"form-group has-success has-feedback");
+								//          $("#m_email_s").attr("class","glyphicon glyphicon-ok form-control-feedback");
+
+							}
+
+						});
+
+		$('#m_nick').keyup(
+				function() {
+					m_nick = $('#m_nick').val()
+
+					var str = /^[가-힣|a-z|A-Z|0-9|\*]{3,20}$/;
+
+					if (m_nick == "" || !str.test($('#m_nick').val())) {
+						$("#nickcheck").text(
+								'형식이 올바르지 않습니다. 3-20자 이내 한글, 영문, 숫자만 가능')
+						$("#m_nick_d").attr("class",
+								"form-group has-error has-feedback");
+						//             $("#m_nick_s").attr("class","glyphicon glyphicon-remove form-control-feedback");
+					} else {
+
+						$("#nickcheck").text('')
+						$("#m_nick_d").attr("class",
+								"form-group has-success has-feedback");
+						//             $("#m_nick_s").attr("class","glyphicon glyphicon-ok form-control-feedback");
+
+					}
+
+				});
+
+		$('#m_phone')
+				.keyup(
+						function() {
+							m_phone = $('#m_phone').val()
+
+							var phonet = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
+
+							if (m_phone == "" || !phonet.test(m_phone)) {
+
+								$("#m_phone_d").attr("class",
+										"form-group has-error has-feedback");
+								//          $("#m_phone_s").attr("class","glyphicon glyphicon-remove form-control-feedback");
+							} else {
+								$("#m_phone_d").attr("class",
+										"form-group has-success has-feedback");
+								//          $("#m_phone_s").attr("class","glyphicon glyphicon-ok form-control-feedback");
+
+							}
+
+						});
+
+		$('#m_birth')
+				.keyup(
+						function() {
+							m_birth = $('#m_birth').val()
+
+							var birtht = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
+
+							if (m_birth == "" || !birtht.test(m_birth)) {
+
+								$("#m_birth_d").attr("class",
+										"form-group has-error has-feedback");
+								//          $("#m_birth_s").attr("class","glyphicon glyphicon-remove form-control-feedback");
+							} else {
+								$("#m_birth_d").attr("class",
+										"form-group has-success has-feedback");
+								//          $("#m_birth_s").attr("class","glyphicon glyphicon-ok form-control-feedback");
+
+							}
+
+						});
+
+	});
+</script>
+</head>
+<body id="mybody">
+	<div id="head"></div>
+	<br>
+
+
+
+	<div class="container" id="mycon" style="height: 100%;">
+		<form id="insertform" style="margin-top: 60px;">
+
+			<div id="m_email_d" class="form-group">
+				<label class="control-label" for="m_email">Email:&nbsp;<input
+					type="button" class="btn btn-success" onclick="idcheck()"
+					value="중복확인">
+				</label>
+				<div class="">
+					<input type="email" class="form-control" name="m_email"
+						id="m_email" placeholder="Enter email">
+				</div>
+				<span id="m_email_s" class=""></span>
+			</div>
+
+			<div id="pwpwd" class="form-group">
+				<label class="control-label" for="m_pw">Password:&nbsp;<span
+					id="pwcheck"></span></label>
+				<div class="">
+					<input type="text" class="form-control" name="m_pw" id="m_pw"
+						placeholder="Enter Password">
+				</div>
+				<span id="pwpws" class=""></span>
+			</div>
+
+			<div id="pwpwd1" class="form-group">
+				<label class="control-label" for="m_pw1">Password1:&nbsp;<span
+					id="pwcheck1"></span></label>
+				<div class="">
+					<input type="text" class="form-control" name="m_pw1" id="m_pw1"
+						placeholder="Enter Password1">
+				</div>
+				<span id="pwpws1" class=""></span>
+			</div>
+		</form>
+
+		<form id="insertform1" style="">
+			<div id="m_phone_d" class="form-group">
+				<label class="control-label" for="m_phone">Phone:</label>
+				<div class="">
+					<input type="tel" class="form-control" name="m_phone" id="m_phone"
+						size="10" placeholder="Enter phone">
+				</div>
+				<span id="m_phone_s" class=""></span>
+			</div>
+
+
+			<div id="m_nick_d" class="form-group">
+				<label class="control-label" for="m_nick">nickname:&nbsp;<input
+					type="button" class="btn btn-success" onclick="nickcheck()"
+					value="중복확인"> <!-- <span id="nickcheck"></span> --> <!-- <button class="btn btn-success" onclick="nickcheck()">중복확인</button>  -->
+
+				</label>
+				<div class="">
+					<input type="text" class="form-control" name="m_nick" id="m_nick"
+						size="10" placeholder="Enter nick">
+				</div>
+				<span id="m_nick_s" class=""></span>
+			</div>
+
+			<div id="m_birth_d" class="form-group">
+				<label class="control-label" for="m_birth">birth:</label>
+				<div class="">
+					<input type="date" class="form-control" name="m_birth" id="m_birth"
+						size="10" placeholder="Enter nick">
+				</div>
+				<span id="m_birth_s" class=""></span>
+			</div>
+
+		</form>
+
+		<div id="button">
+			<input type="submit" class="btn btn-default" onclick="loginfn()"
+				id="submit" value="완료"> <input type="submit"
+				class="btn btn-default" onclick="location.href='mem_login.html'"
+				value="로그인" />
+		</div>
+	</div>
+
+
+</body>
+
+<footer>
+	<div id="foot" style="margin-top: 30px;"></div>
+</footer>
+</html>

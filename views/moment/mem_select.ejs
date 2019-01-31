@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script src="../js/stringformat-1.11.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<style>
+#mytable {
+	text-align: center;
+	border-bottom: 2px solid red;
+}
+
+div {
+	margin: auto;
+	width: 1000px;
+}
+</style>
+
+<script>
+$(document).ready(function() {
+	
+	fn()
+})
+
+function fn() {
+	$.ajax({
+		url : "/moment/mem_selectdb",
+		dataType : "json",
+		type : "get",
+		success : function(data, textStatus, jqXHR) {
+
+			
+			$('#mytbody').empty();
+			$.each(data, function(index, item) {
+				console.log(item)
+				console.log(index, item.m_no, item.m_email)
+
+				$('#mytbody').append(
+						"<tr><td>"
+						+ item.m_no 
+						+ "</td><td>" 
+						+ "<a href ="+ "/moment/mem_search?num=" + item.m_no + ">"+ item.m_email + "</a>" 
+						+ "</td><td>"
+						+ item.m_pw 
+						+ "</td><td>" 
+						+ item.m_nick
+						+ "</td><td>" 
+						+ item.m_birth
+						
+						+ "</td></tr>")
+
+			})
+
+			alert("셀렉완료");
+
+			// 				location.href = "./M_select.do";
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert("실패");
+		}
+	});
+}
+    function wFn() {
+        console.log(localStorage.getItem('name'))
+        console.log(localStorage.age)
+        console.log(localStorage['addr'])
+
+      //  localStorage.clear()
+       // localStorage.removeItem('name')
+
+    }
+</script>
+</head>
+<body>
+	<header align="center">
+		<h1>셀렉트페이지 입니당!</h1>
+	</header>
+	<table border="" align="center">
+		<thead>
+			<tr>
+				<td colspan="4">
+
+						<select name="searchKey">
+							<option value="id">ID</option>
+							<option value="name">이름</option>
+							<option value="member_code">회원코드</option>
+						</select> 
+						<input type="text" name="searchWord" value="" /> 
+						<input id="submit" type="submit" value="검색" />
+
+				</td>
+			</tr>
+			<tr>
+				<th>번호</th>
+				<th>회원메일</th>
+				<th>비밀번호</th>
+				<th>회원닉네임</th>
+				<th>생일</th>
+			</tr>
+		</thead>
+
+		<tbody id="mytbody">
+		
+		</tbody>
+
+		<tfoot id="mytfoot">
+
+		</tfoot>
+
+
+	</table>
+
+
+</body>
+</html>

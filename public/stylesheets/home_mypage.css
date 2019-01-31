@@ -1,0 +1,37 @@
+@font-face {
+	font-family: "Am";
+	src: url("font/AmaticSC-Regular.ttf");
+}
+
+#mybody {
+	vertical-align: middle;
+	background-size: 500px 700px;
+	/*    background-image: url("image/a (3).jpg"); */
+}
+
+#insertform {
+	position: relative;
+	vertical-align: middle;
+	width: 300px;
+	margin: auto;
+}
+
+#insertform1 {
+	position: relative;
+	vertical-align: middle;
+	width: 300px;
+	margin: auto;
+}
+
+#button {
+	position: relative;
+	margin: auto;
+	text-align: center;
+}
+
+.bbtn {
+	background-color: black;
+	font-family: "Am";
+	color: white;
+	font-size: 14pt;
+}

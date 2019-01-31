@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel='stylesheet' href='/stylesheets/mem_login.css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function() {
+
+		console.log($('#mycon').height())
+		console.log($('#myform').height())
+		$("#head").load("header.html");
+		$("#foot").load("footer.html");
+
+		login()
+	})
+
+	aa = '';
+
+	function loginfn() {
+
+		datas = {
+			m_email : $('#m_email').val(),
+			m_pw : $('#m_pw').val()
+		}
+		$.ajax({
+			url : "/moment/mem_logindb",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				console.log("data:" + data);
+
+				if (data == '') {
+
+					alert("아이디나 비밀번호가 다릅니다.");
+
+				} else {
+					$.each(data, function(index, item) {
+						console.log("item:" + item.m_email);
+						console.log(item)
+						console.log(index, item.m_no, item.m_email)
+
+						aa = item.m_email
+						console.log(item.m_email)
+						login()
+						sessionfn()
+						alert("로그인.");
+						localStorage.setItem('mymail', m_email)
+						location.href = "/moment/home";
+					})
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+	}
+
+	function sessionfn() {
+		s_email = $('#m_email').val();
+
+		sessionStorage.setItem('m_email', s_email);
+
+		console.log(sessionStorage.m_email)
+	}
+
+	function logoutfn() {
+		
+		sessionStorage.removeItem('m_email')
+		//로컬스토리지 삭제
+		location.href = '/moment/mem_login'
+
+	}
+
+	function login() {
+
+		var id = aa;
+		console.log("id:" + id);
+		if (id == '') {
+			$("#mem_login").show();
+			$("#mem_logout").hide();
+		} else {
+			$("#mem_insert").hide();
+			$("#mem_login").hide();
+			$("#mem_logout").show();
+		}
+	}
+	
+	
+	function emailsearchfn() {
+
+		datas = {
+			m_phone : $('#m_phone').val()
+		}
+		$.ajax({
+			url : "mem_emailsearchdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				console.log("data:" + data);
+
+				if (data == '') {
+
+					alert("이메일 정보가 없습니다.");
+					$('#id_result').text("이메일정보가 없어요!");
+
+				} else {
+					$.each(data, function(index, item) {
+						console.log("item:" + item.m_email);
+						console.log(item)
+						console.log(index, item.m_no, item.m_email)
+						
+						$('#id_result').text(item.m_email);
+						
+					})
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+	}
+	
+	function emailsearchpwfn() {
+console.log(" $('#m_email_s').val():" +  $('#m_email_s').val());
+console.log(" : $('#m_tel_s').val():" +  $('#m_tel_s').val());
+		datas = {
+			m_phone : $('#m_tel_s').val(),
+			m_email : $('#m_email_s').val()
+		}
+		$.ajax({
+			url : "mem_emailsearchpwdb.jsp",
+			dataType : "json",
+			type : "get",
+			data : datas,
+			success : function(data, textStatus, jqXHR) {
+				console.log("data:" + data);
+
+				if (data == '') {
+
+					alert("회원 정보가 없습니다.");
+					$('#pw_result').text("회원정보가 없어요!");
+
+				} else {
+					$.each(data, function(index, item) {
+						console.log("item:" + item.m_email);
+						console.log(item)
+						console.log(index, item.m_no, item.m_email)
+						
+						$('#pw_result').text(item.m_pw);
+						
+					})
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert("실패");
+			}
+		});
+	}
+</script>
+
+<style>
+
+</style>
+
+</head>
+
+
+<body id="mybody">
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div id="head"></div>
+	<div class="container" id="mycon" style="height: 100%;">
+
+		<form id="loginform" style="margin-top: 60px;">
+			<div class="form-group">
+				<label for="m_email">Email:</label> 
+				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email">
+			</div>
+			<div class="form-group">
+				<label for="m_pw">Password:</label> 
+				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password">
+			</div>
+<!-- 			<div class="checkbox"> -->
+<!-- 				<label><input type="checkbox"> Remember me</label> -->
+<!-- 			</div> -->
+		</form>
+		<div id="button">
+			 <input type="submit"  class="btn btn-default" onclick="loginfn()"id="mem_login" value="로그인">
+			 <input type="submit"  class="btn btn-default" onclick="location.href='/moment/mem_insert'" id="mem_insert" value="회원가입" />
+			 <input type="submit"  class="btn btn-default" onclick="logoutfn()" id="mem_logout" value="로그아웃">
+			 <button type="button"  class="btn btn-default" data-toggle="modal" data-target="#myModal">아이디찾기</button> 
+		</div>
+	</div>
+
+<!-- Modal -->
+
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+      
+        <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">아이디 비밀번호 찾기</h4>
+        </div>
+        
+        <div class="modal-body">
+         
+  <h3 align="center">아이디 찾기</h3>
+	<div align="center">
+		<div class="form-group">
+				<label for="m_phone">Phone:</label> 
+				<input type="tel" class="form-control" name="m_phone" id="m_phone" size="10" placeholder="Enter tel">
+			</div>
+		<span id="id_result"></span><br><br>
+		<button class="btn btn-default" id="id" onclick="emailsearchfn()">ID찾기</button>
+	</div>
+	<br />
+	<hr/>
+	
+	<h3 align="center">비번 찾기</h3>
+	<div align="center">
+		<div class="form-group">
+				<label for="m_email_s">Email:</label> 
+				<input type="email" class="form-control" name="m_email_s" id="m_email_s" size="10" placeholder="Enter email">
+			</div>
+		<div class="form-group">
+				<label for="m_tel_s">Phone:</label> 
+				<input type="tel" class="form-control" name="m_tel_s" id="m_tel_s" size="10" placeholder="Enter phone">
+			</div>
+		<span id="pw_result"></span><br /><br />
+		<button id="pw" class="btn btn-default" onclick="emailsearchpwfn()">PW찾기</button>
+	</div>
+
+
+
+        </div>
+        
+     
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+
+</body>
+<footer>
+	<div id="foot"></div>
+</footer>
+</html>
