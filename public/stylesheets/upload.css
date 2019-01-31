@@ -1,6 +1,6 @@
 @font-face {
    font-family: "Am";
-   src: url("font/AmaticSC-Regular.ttf")
+   src: url("/font/AmaticSC-Regular.ttf");
 }
 
 .sk_head {
@@ -122,6 +122,6 @@ button.replace { /*button tag 에 원하는 스타일 적용*/
    position: absolute;
    width: 27px;
    height: 27px;
-   background-image: url("image/camera_icon.png");
+   background-image: url("/image/camera_icon.png");
    cursor: pointer;
 }

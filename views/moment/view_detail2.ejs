@@ -52,7 +52,7 @@
 				}
 				$.ajax({
 					url : '/moment/likecnt',
-					dataType : "html",
+					dataType : "json",
 					type : "POST",
 					data : datas,
 					success : function(data) {
@@ -73,7 +73,7 @@
 				}
 				$.ajax({
 					url : '/moment/likecnt',
-					dataType : "html",
+					dataType : "json",
 					type : "POST",
 					data : datas,
 					success : function(data) {
@@ -86,8 +86,8 @@
 			}
 
 		});
-		$("#head").load("header.html");
-		$("#foot").load("footer.html");
+		$("#head").load("/moment/header");
+		$("#foot").load("/moment/footer");
 
 	})
 	function fn() {
@@ -260,9 +260,10 @@
 			data : datas,
 			type : "get",
 			success : function(data, textStatus, jqXHR) {
-				d_num = dno
-				d_like = data[0].d_like
-				$('#likecnt').text(d_like)
+// 				console.log(data)
+// 				d_num = dno
+// 				d_like = data[0].d_like
+// 				$('#likecnt').text(d_like)
 
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -281,7 +282,7 @@
 			mnum : m_num
 		}
 		$.ajax({
-			url : "/momentlikedown",
+			url : "/moment/likedown",
 			dataType : "json",
 			data : datas,
 			type : "get",
@@ -315,15 +316,14 @@
 			<div id="clear"></div>
 
 			<div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
-			<div id="mainData"
-				class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+			<div id="mainData" class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
 			</div>
 			<div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
 
 			<div id="row">
 				<div class="col-sm-12" id="icon">
 
-					<img id="kindimg" style="float: right" class="img-responsive " src="/image/kind/e.png">
+					<img id="kindimg" style="float: right" class="img-responsive " src="">
 					<img style="float: right" id="age" class="img-responsive " src="/image/age/20s.png"> 
 					<img id="like" style="float: left; margin-right: 3px" class="img-responsive hj_heart_img" src="/image/like/heart.png">
 					<span style="float: left" id="likecnt">20</span> 
